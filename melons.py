@@ -1,7 +1,6 @@
 """Classes for melon orders."""
 import random
-from datetime import date
-from datetime import *
+import time
 
 class AbstractMelonOrder:
 
@@ -11,12 +10,17 @@ class AbstractMelonOrder:
         self.shipped = False
         self.order_type = order_type
         self.tax = tax
-    
+
     def get_base_price(self):
         base_price = random.randint(5, 9)
-        current_day = date.today() # 2021 12 06
-        current_hour = time.localtime().time.tz
-        if date.weekday(current_day) < 5 and now.hour():
+
+        # current weekday and hour
+        current_time_pst_in_seconds = time.time() - (8 * 60 * 60) # utc - pst offset
+        current_time_pst = time.gmtime(current_time_pst_in_seconds) # convert seconds to struct_time tuple
+        current_hour = current_time_pst.tm_hour
+        current_day = current_time_pst.tm_wday
+
+        if current_day < 5 and (current_hour > 7 and current_hour < 12) :
            base_price = base_price + 4 
         return base_price
 
@@ -31,6 +35,14 @@ class AbstractMelonOrder:
     def mark_shipped(self):
         """Record the fact than an order has been shipped."""
         self.shipped = True
+    
+    def print_melon_info(self):
+        print(f"- species: {self.species}")
+        print(f"- qty: {self.qty}")
+        print(f"- shipped: {self.shipped}")
+        print(f"- order type: {self.order_type}")
+        print(f"- tax: {self.tax}")
+        print(f"- base price: {self.get_base_price()}")
 
 
 class DomesticMelonOrder (AbstractMelonOrder):
@@ -66,8 +78,8 @@ class GovernmentMelonOrder(AbstractMelonOrder):
     def mark_inspection(self, passed):
         self.passed_inspection = passed
 
-int_melon = GovernmentMelonOrder(species="Christmas", qty=8, shipped=False, order_type="domestic", tax=0)
+if __name__ == '__main__':
 
-# int_melon
-
-print(int_melon)
+    GovernmentMelon = GovernmentMelonOrder(species="Christmas", qty=8, shipped=False, order_type="domestic", tax=0)
+    print("GovernmentMelon")
+    GovernmentMelon.print_melon_info()
