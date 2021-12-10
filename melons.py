@@ -1,7 +1,6 @@
 """Classes for melon orders."""
 import random
-from datetime import date
-from datetime import *
+import time
 
 class AbstractMelonOrder:
 
@@ -14,9 +13,11 @@ class AbstractMelonOrder:
     
     def get_base_price(self):
         base_price = random.randint(5, 9)
-        current_day = date.today() # 2021 12 06
-        current_hour = time.localtime().time.tz
-        if date.weekday(current_day) < 5 and now.hour():
+        current_time = time.localtime()
+        day = current_time.tm_wday
+        hour = current_time.tm_hour - 8
+        print(f"original base price: {base_price}")
+        if hour >=8 and hour <=11 and day < 5:
            base_price = base_price + 4 
         return base_price
 
