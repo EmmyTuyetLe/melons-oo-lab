@@ -35,6 +35,14 @@ class AbstractMelonOrder:
     def mark_shipped(self):
         """Record the fact than an order has been shipped."""
         self.shipped = True
+    
+    def print_melon_info(self):
+        print(f"- species: {self.species}")
+        print(f"- qty: {self.qty}")
+        print(f"- shipped: {self.shipped}")
+        print(f"- order type: {self.order_type}")
+        print(f"- tax: {self.tax}")
+        print(f"- base price: {self.get_base_price()}")
 
 
 class DomesticMelonOrder (AbstractMelonOrder):
@@ -73,11 +81,5 @@ class GovernmentMelonOrder(AbstractMelonOrder):
 if __name__ == '__main__':
 
     GovernmentMelon = GovernmentMelonOrder(species="Christmas", qty=8, shipped=False, order_type="domestic", tax=0)
-
     print("GovernmentMelon")
-    print(f"- species: {GovernmentMelon.species}")
-    print(f"- qty: {GovernmentMelon.qty}")
-    print(f"- shipped: {GovernmentMelon.shipped}")
-    print(f"- order type: {GovernmentMelon.order_type}")
-    print(f"- tax: {GovernmentMelon.tax}")
-    print(f"- base price: {GovernmentMelon.get_base_price()}")
+    GovernmentMelon.print_melon_info()
