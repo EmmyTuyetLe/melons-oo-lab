@@ -2,7 +2,13 @@
 import random
 import time
 
-class AbstractMelonOrder:
+class TooManyMelonsError(ValueError):
+    error_message = "No more than 100 melons!"
+    def __init__(self):
+
+        super().__init__(self.error_message)
+
+class AbstractMelonOrder():
 
     def __init__(self, species, qty, shipped, order_type, tax):
         self.species = species
@@ -10,6 +16,9 @@ class AbstractMelonOrder:
         self.shipped = False
         self.order_type = order_type
         self.tax = tax
+
+        if self.qty > 100:
+            raise TooManyMelonsError
 
     def get_base_price(self):
         base_price = random.randint(5, 9)
